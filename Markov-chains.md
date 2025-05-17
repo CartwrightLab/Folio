@@ -122,11 +122,15 @@ It is easy to show that $\sum_{k=0}^\infty P^{(k)}(t) = P(t)$.
 
 The expected number of mutations conditional on the beginning and end points is calculated as
 
-$$E\left[K | X_t = j, X_0 = i\right] = \sum_{k=0}^\infty k \frac{p^{(k)}_{ij}(t)}{p_{ij}(t)} =  \frac{\sum_{k=0}^\infty k p^{(k)}_{ij}(t)}{p_{ij}(t)}$$
+```math
+E\left[K | X_t = j, X_0 = i\right] = \sum_{k=0}^\infty k \frac{p^{(k)}_{ij}(t)}{p_{ij}(t)} =  \frac{\sum_{k=0}^\infty k p^{(k)}_{ij}(t)}{p_{ij}(t)}
+```
 
 The numerator can be calculated using matrix operations as
 
-$$\left[\sum_{k=0}^\infty k p^{(k)}_{ij}(t) \right] = \sum_{k=0}^\infty k \frac{\left(M t\right)^k}{k!} e^{Zt} = M t e^{Mt}e^{Zt} = Mt e^{Qt}$$
+```math
+\left[\sum_{k=0}^\infty k p^{(k)}_{ij}(t) \right] = \sum_{k=0}^\infty k \frac{\left(M t\right)^k}{k!} e^{Zt} = M t e^{Mt}e^{Zt} = Mt e^{Qt}
+```
 
 TODO: show that the sum of the elements of this matrix is t when Q has been normalized.
 
