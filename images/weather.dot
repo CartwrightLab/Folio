@@ -1,0 +1,12 @@
+// dot -Tsvg < weather.dot > weather.svg
+digraph {
+  fontname="Helvetica,Arial,sans-serif"
+  node [fontname="Helvetica,Arial,sans-serif"]
+  edge [fontname="Helvetica,Arial,sans-serif"]
+  rankdir=LR;
+  node [shape = circle]; Dry Wet;
+  Dry -> Dry [label = "0.9"];
+  Dry -> Wet [label = "0.1"];
+  Wet -> Dry [label = "0.7"];
+  Wet -> Wet [label = "0.3"];
+}
