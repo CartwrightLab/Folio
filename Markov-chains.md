@@ -43,7 +43,7 @@ u_{31} & u_{32} & 1 - (u_{31} + u_{32} + u_{34}) & u_{34}\\
 u_{41} & u_{42} & u_{43} & 1 - (u_{41} + u_{42} + u_{43})\\
 \end{matrix}$$
 
-where the off diagonals represent mutation events and the diagonals represent no mutation.  If this locus is transmitted clonally (e.g. mitochondrial DNA), then $`\Pr(X_n = j | X_0 = i) = P^{(n)}_{ij}`$ where $`P^{(n)} = P^n`$.
+where the off diagonals represent mutation events and the diagonals represent no mutation.  If this locus is transmitted clonally (e.g. mitochondrial DNA), then $\Pr(X_n = j | X_0 = i) = P^{(n)}_{ij}$ where $P^{(n)} = P^n$.
 
 #### Probability of No Mutations
 
