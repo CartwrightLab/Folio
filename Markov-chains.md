@@ -90,23 +90,48 @@ If we take the limit as $n \to \infty$, we get the formula for $P(t)$ using matr
 
 $$\left[\Pr(X_t = j | X_0 = i)\right] = P(t) = \lim_{n \to \infty} \left(I + \frac{Qt}{n} \right)^n = e^{Qt}$$
 
+#### K-alleles Model
+
+In a K-alleles model there are a total of $k$ different alleles, and the mutation rates between alleles are identical. Under this model, $q_{ij} = \frac{1}{k-1}$ if $i \ne j$, and $-1$ if $i = j$.
+
+
 #### Probability of No Mutations
 
-As above, let $Z$ hold the diagonal entries of $Q$ and $M$ hold the off-diagonals, such that $Q = Z + M$. Next let $P_0(t) = \left[p(t, i, j, 0)\right]$, where $p(t, i, j, 0) = \Pr(X_t = j \text{ and no mutations} | X_0 = i)$. Therefore,
+As above, let $Z$ hold the diagonal entries of $Q$ and $M$ hold the off-diagonals, such that $Q = Z + M$. Next let $P^0(t) = \left[p^{(0)}_{ij}(t)\right]$, where $p^{(0)}_{ij}(t) = \Pr(X_t = j \text{ and no mutations} | X_0 = i)$. Therefore,
 
-$$P_0(t) = \lim_{n \to \infty} \left(I + \frac{Zt}{n} \right)^n = e^{Zt}$$
+$$P^{(0)}(t) = \lim_{n \to \infty} \left(I + \frac{Zt}{n} \right)^n = e^{Zt}$$
 
 #### Probability of One Mutation
 
-Define $P_1(t)$ similar to $P_0(t)$ as the joint one-mutation-transition matrix.
+Define $P^{(1)}(t)$ similar to $P^{(0)}(t)$ as the joint one-mutation-transition matrix.
 
-$$P_1(t) = \lim_{n \to \infty} n \frac{M t}{n} \left(I + \frac{Zt}{n} \right)^{n-1} = M t e^{Zt}$$
+$$P^{(1)}(t) = \lim_{n \to \infty} n \frac{M t}{n} \left(I + \frac{Zt}{n} \right)^{n-1} = M t e^{Zt}$$
 
 #### Probability of K Mutations
 
 Generally, the probability of $k$ mutations can be calculated in a manner reminiscent of a Poisson distribution:
 
-$$P_k(t) = \lim_{n \to \infty}
+$$P^{(k)}(t) = \lim_{n \to \infty}
 {n \choose k}
 \left(\frac{Mt}{n}\right)^k
 \left(I + \frac{Zt}{n} \right)^{n-k} = \frac{\left(M t\right)^k}{k!} e^{Zt}$$
+
+It is easy to show that $\sum_{k=0}^\infty P^{(k)}(t) = P(t)$.
+
+#### Expected number of Mutations
+
+The expected number of mutations conditional on the beginning and end points is calculated as
+
+$$E\left[K | X_t = j, X_0 = i\right] = \sum_{k=0}^\infty k \frac{p^{(k)}_{ij}(t)}{p_{ij}(t)} =  \frac{\sum_{k=0}^\infty k p^{(k)}_{ij}(t)}{p_{ij}(t)}$$
+
+The numerator can be calculated using matrix operations as
+
+$$\left[\sum_{k=0}^\infty k p^{(k)}_{ij}(t) \right] = \sum_{k=0}^\infty k \frac{\left(M t\right)^k}{k!} e^{Zt} = M t e^{Mt}e^{Zt} = Mt e^{Qt}$$
+
+TODO: show that the sum of the elements of this matrix is t when Q has been normalized.
+
+Since the denominator is $e^{Qt}$, we can find the expected value using element-wise division.
+
+$$\left[E\left[K | X_t = j, X_0 = i\right]\right] = \frac{Mt e^{Qt}}{e^{Qt}}$$
+
+Note that $e^{Qt}$ does not cancel out in the numerator and the denominator since it is part of a matrix multiplication in the numerator.
