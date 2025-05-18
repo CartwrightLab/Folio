@@ -132,10 +132,22 @@ The numerator can be calculated using matrix operations as
 \left[\sum_{k=0}^\infty k p^{(k)}_{ij}(t) \right] = \sum_{k=0}^\infty k \frac{\left(M t\right)^k}{k!} e^{Zt} = M t e^{Mt}e^{Zt} = Mt e^{Qt}
 ```
 
-TODO: show that the sum of the elements of this matrix is t when Q has been normalized.
+$$\left[\sum_{k=0}^\infty k p^{(k)}_{ij}(t) \right] = \sum_{k=0}^\infty k \frac{\left(M t\right)^k}{k!} e^{Zt} = M t e^{Mt}e^{Zt} = Mt e^{Qt}$$
 
 Since the denominator is $e^{Qt}$, we can find the expected value using element-wise division.
 
 $$\left[E\left[K | X_t = j, X_0 = i\right]\right] = \frac{Mt e^{Qt}}{e^{Qt}}$$
 
 Note that $e^{Qt}$ does not cancel out in the numerator and the denominator since it is part of a matrix multiplication in the numerator.
+
+Assuming that the process has converged to its stationary distribution, the expected number of mutations over time $t$ can be calculated by averaging over the starting and ending points
+
+$$E[K] = \sum_{i,j} E\left[K | X_t = j, X_0 = i\right] \Pr( X_t = j, X_0 = i) = \sum_{i,j} \left[\pi Mt e^{Qt}\right]_{ij}$$
+
+where $\pi$ is the stationary distribution row vector. $\pi$ can be found by solving the equation $\pi Q = 0$ with the constraint that $\sum_i \pi_i = 1$. First note that $\pi M = -\pi Z$ because $\pi Q = 0$. Then
+
+$$\pi Mt e^{Qt} = t \pi M e^{Qt} = -t \pi Z e^{Qt} = -t \pi e^{Qt} Z = -t \pi Z$$
+
+If $Q$ has been normalized such that $\sum_{i,j} \pi M = \sum_{i,j} -\pi Z = 1$, which is common, then 
+
+$$E[K] =  \sum_{i,j} \left[\pi Mt e^{Qt}\right]_{ij} = t$$
