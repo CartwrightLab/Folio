@@ -92,7 +92,7 @@ In a K-alleles model there are a total of $k$ different alleles, and the mutatio
 
 #### Probability of No Mutations
 
-As above, let $Z$ hold the diagonal entries of $Q$ and $M$ hold the off-diagonals, such that $Q = Z + M$. Next let $P^0(t) = \left[p^{(0)}_{ij}(t)\right]$, where $p^{(0)}_{ij}(t) = \Pr(X_t = j \text{ and no mutations} | X_0 = i)$. Therefore,
+As above, let $Z$ hold the diagonal entries of $Q$ and $M$ hold the off-diagonals, such that $Q = Z + M$. Next let $`P^0(t) = \left[p^{(0)}_{ij}(t)\right]`$, where $p^{(0)}_{ij}(t) = \Pr(X_t = j \text{ and no mutations} | X_0 = i)$. Therefore,
 
 $$P^{(0)}(t) = \lim_{n \to \infty} \left(I + \frac{Zt}{n} \right)^n = e^{Zt}$$
 
@@ -126,8 +126,6 @@ The numerator can be calculated using matrix operations as
 ```math
 \left[\sum_{k=0}^\infty k p^{(k)}_{ij}(t) \right] = \sum_{k=0}^\infty k \frac{\left(M t\right)^k}{k!} e^{Zt} = M t e^{Mt}e^{Zt} = Mt e^{Qt}
 ```
-
-$$\left[\sum_{k=0}^\infty k p^{(k)}_{ij}(t) \right] = \sum_{k=0}^\infty k \frac{\left(M t\right)^k}{k!} e^{Zt} = M t e^{Mt}e^{Zt} = Mt e^{Qt}$$
 
 Since the denominator is $e^{Qt}$, we can find the expected value using element-wise division.
 
