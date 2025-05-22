@@ -1,5 +1,8 @@
 # Markov Chains and Mutation
 
+> [!CAUTION]
+> The math is not mathing.
+
 ## Introduction
 
 A Markov chain is a stochastic model describing how a random variable changes through time. Markov chains are memoryless, and future states depend only on the current state of the chain and not on any past states. This is known as the Markov property. 
@@ -56,15 +59,7 @@ $$\left[\Pr(X_n = j \text{ and zero mutations} | X_0 = i)\right] = Z^n$$
 If one and only one mutation occurred across $n$ generations, then there are $n$ possible time points when the mutation occurred. The probability of one and only one mutation occurring across $n$ generations can be calculated by summing over all possible time points
 
 $$\left[\Pr(X_n = j \text{ and one mutation} | X_0 = i)\right] =
-\sum_{k=1}^n Z^{k-1} M^1 Z^{n-k} = n M^1 Z^{n-1}$$
-
-The simplification is possible because $Z$ is a diagonal matrix.
-
-#### Probability of K Mutations
-
-Generally, the probability of $k$ mutations can be calculated in a manner reminiscent of a binomial distribution:
-
-$$\left[\Pr(X_n = j \text{ and k mutations} | X_0 = i)\right] = {n \choose k} M^k Z^{n-k}$$
+\sum_{k=1}^n Z^{k-1} M^1 Z^{n-k}$$
 
 ## Continuous-Time Markov Chains
 
