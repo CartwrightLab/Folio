@@ -46,20 +46,20 @@ A discrete-time Markov chain is a sequence of random variables $`X_0`$,
 $`X_1`$, $`X_2`$, etc. with the Markov property:
 
 ``` math
-\Pr(X_{n+1} = x | X_0 = x_0, X_1 = x_1, \ldots , X_n = x_n) = \Pr(X_{n+1} = x | X_n = x_n)
+\Pr(X_{t+1} = x | X_0 = x_0, X_1 = x_1, \ldots , X_t = x_t) = \Pr(X_{t+1} = x | X_t = x_t)
 ```
 
 Assuming time-homogeneity, the behavior of this chain can be encoded
 into a single transition matrix, $`P`$, such that
-$`p_{ij} = \Pr(X_{n+1} = j | X_n = i) = \cdots = \Pr(X_{1} = j | X_0 = i)`$.
+$`p_{ij} = \Pr(X_{t+1} = j | X_t = i) = \cdots = \Pr(X_{1} = j | X_0 = i)`$.
 
-Let $`\pi^{(n)}`$ be a (row) vector describing the probability of states
-of the chain at time $`t=n`$, i.e. $`\pi^{(n)}_i = \Pr(X_{n} = i)`$,
-where $`(n)`$ is an index and not a power. This vector can be calculated
-from $`\pi^{(n-1)}`$ using matrix multiplication:
+Let $`\pi^{(t)}`$ be a (row) vector describing the probability of states
+of the chain at time $`t`$, i.e. $`\pi^{(t)}_i = \Pr(X_{t} = i)`$, where
+$`(t)`$ is an index and not a power. This vector can be calculated from
+$`\pi^{(t-1)}`$ using matrix multiplication:
 
 ``` math
-\pi^{(n)} = \pi^{(n-1)} \times P = \pi^{(n-2)} \times P \times P = \pi^{(0)} \times P^n
+\pi^{(t)} = \pi^{(t-1)} \times P = \pi^{(t-2)} \times P \times P = \pi^{(0)} \times P^t
 ```
 
 where $`\pi^{(0)}`$ represents the initial distribution of states at
@@ -73,11 +73,11 @@ models we use.) Let $`\pi`$ be the stationary probability (row) vector.
 Then the following properties are true.
 
 ``` math
-\pi P = \pi P^n = \pi \quad\text{and}\quad \sum_i \pi_i = 1
+\pi P = \pi P^t = \pi \quad\text{and}\quad \sum_i \pi_i = 1
 ```
 
 ``` math
-\lim_{n \to \infty} p_{ij}(n) = \pi_j
+\lim_{t \to \infty} p^t_{ij} = \pi_j
 ```
 
 This has two implications. One, if the chain’s current marginal
@@ -93,11 +93,11 @@ A Markov chain is reversible if going forwards in time is the same as
 going backwards in time. Specifically,
 
 ``` math
-\Pr(X_{n+1} = j , X_n = i) = \Pr(X_{n+1} = i , X_n = j)
+\Pr(X_{t+1} = j , X_t = i) = \Pr(X_{t+1} = i , X_t = j)
 ```
 
 ``` math
-\pi_i \Pr(X_{n+1} = j | X_n = i) = \pi_j \Pr(X_{n+1} = i | X_n = j)
+\pi_i \Pr(X_{t+1} = j | X_t = i) = \pi_j \Pr(X_{t+1} = i | X_n = j)
 ```
 
 ``` math
@@ -121,11 +121,11 @@ Spectral decomposition is useful for simplifying the calculation of
 matrix powers.
 
 ``` math
-P^n = (U \Lambda U^{-1})^n = U \Lambda^n U^{-1}
+P^t = (U \Lambda U^{-1})^t = U \Lambda^t U^{-1}
 ```
 
-Since $`\Lambda`$ is diagonal, $`\Lambda^n`$ is easier to calculate than
-$`P^n`$.
+Since $`\Lambda`$ is diagonal, $`\Lambda^t`$ is easier to calculate than
+$`P^t`$.
 
 ## Application to Mutation
 
@@ -145,79 +145,131 @@ u_{41} & u_{42} & u_{43} & 1 - (u_{41} + u_{42} + u_{43})\\
 
 where the off diagonals represent mutation events and the diagonals
 represent no mutation. If this locus is transmitted clonally
-(e.g. mitochondrial DNA), then $`\Pr(X_n = j | X_0 = i) = P^{(n)}_{ij}`$
-where $`P^{(n)} = P^n`$.
+(e.g. mitochondrial DNA), then $`\Pr(X_t = j | X_0 = i) = P^{(t)}_{ij}`$
+where $`P^{(t)} = P^t`$.
 
 #### Probability of No Mutations
 
-$`\Pr(X_n = i | X_0 = i)`$ does not measure the probability that no
-mutation occurred, only that the state is the same after $`n`$
+$`\Pr(X_t = i | X_0 = i)`$ does not measure the probability that no
+mutation occurred, only that the state is the same after $`t`$
 generations. To calculate
-$`\Pr(X_n = j \text{ and zero mutations} | X_0 = i)`$, we will first
+$`\Pr(X_t = j \text{ and zero mutations} | X_0 = i)`$, we will first
 first split $`P`$ into two matrices, $`P = Z + J`$, such that $`Z`$
 contains the diagonal elements of $`P`$ and $`J`$ contains the
 off-diagonals. From here, it is straightforward to calculate
 
 ``` math
-\left[\Pr(X_n = j \text{ and zero mutations} | X_0 = i)\right] = Z^n
+\left[\Pr(X_t = j \text{ and zero mutations} | X_0 = i)\right] = Z^t
 ```
 
 #### Probability of One Mutation
 
-If one and only one mutation occurred across $`n`$ generations, then
-there are $`n`$ possible time points when the mutation occurred. The
-probability of one and only one mutation occurring across $`n`$
+If one and only one mutation occurred across $`t`$ generations, then
+there are $`t`$ possible time points when the mutation occurred. The
+probability of one and only one mutation occurring across $`t`$
 generations can be calculated by summing over all possible time points.
 
 ``` math
-\Pr(X_n = j \text{ and one mutation} | X_0 = i) =
-\left[\sum_{k=1}^n Z^{k-1} J^1 Z^{n-k}\right]_{ij}
+\Pr(X_t = j \text{ and one mutation} | X_0 = i) =
+\left[\sum_{k=1}^t Z^{k-1} J^1 Z^{t-k}\right]_{ij}
 ```
 
 If $`i = j`$, this value is 0. Otherwise,
 
 ``` math
 \begin{align}
-\Pr(X_n = j \text{ and one mutation} | X_0 = i) = &
-\sum_{k=1}^n p_{ii}^{k-1} p_{ij} p_{jj}^{n-k}\\
-= & \begin{cases}p_{ij} \frac{p_{ii}^n - p_{jj}^n}{p_{ii}-p_{jj}} : p_{ii} \ne p_{jj}\\
-n p_{ij} p_{ii}^{n-1} : p_{ii} = p_{jj}
+\Pr(X_t = j \text{ and one mutation} | X_0 = i) = &
+\sum_{k=1}^t p_{ii}^{k-1} p_{ij} p_{jj}^{t-k}\\
+= & \begin{cases}p_{ij} \frac{p_{ii}^t - p_{jj}^t}{p_{ii}-p_{jj}} : p_{ii} \ne p_{jj}\\
+t p_{ij} p_{ii}^{t-1} : p_{ii} = p_{jj}
 \end{cases}
 \end{align}
 ```
 
 #### Expected number of mutations
 
-The expected number of mutations given $`X_n = j`$ and $`X_0 = i`$ can
+The expected number of mutations given $`X_t = j`$ and $`X_0 = i`$ can
 be calculated using the property that every step is independent. Let
-$`K_i`$ be the number of mutations that occurred when $`t=h`$ and
-$`K = \sum_{h=0}^n K_h`$ be the total number of mutations. Then
+$`K_s`$ be the number of mutations that occurred at time $`s`$ and
+$`K = \sum_{s=0}^t K_s`$ be the total number of mutations. Then
 
 ``` math
-E\left[K | X_n = j, X_0 = i\right] = \sum_{h=1}^n E\left[K_h | X_n = j, X_0 = i\right]
+E\left[K | X_t = j, X_0 = i\right] = \sum_{s=1}^t E\left[K_s | X_n = j, X_0 = i\right]
 ```
 
 Furthermore,
 
 ``` math
-E\left[K_h | X_n = j, X_0 = i\right] = \frac{E\left[K_h | X_n = j, X_0 = i\right] \times \Pr\left( X_n = j | X_0 = i\right)}{\Pr\left( X_n = j | X_0 = i\right)}
+\begin{align*}
+E\left[K_s | X_n = j, X_0 = i\right] = & \frac{E\left[K_s | X_n = j, X_0 = i\right] \times \Pr\left( X_t = j | X_0 = i\right)}{\Pr\left( X_t = j | X_0 = i\right)}\\
+= & \frac{E\left[K_s \times [X_t = j] | X_0 = i\right]}{\Pr\left( X_t = j | X_0 = i\right)}
+\end{align*}
 ```
 
-The denominator can be obtained from $`P^n`$ while the numerator is
+where $`[X_t = j]`$ uses Iverson bracket notation for an indicator
+function.
+
+The denominator can be obtained from $`P^t`$ while the numerator is
 
 ``` math
 \begin{align*}
-E\left[K_h | X_n = j, X_0 = i\right] \times \Pr\left( X_n = j | X_0 = i\right) = &
-\sum_{k \in \{0,1\}} k \Pr\left(K_h = k | X_n = j, X_0 = i \right)  \Pr\left( X_n = j | X_0 = i\right)\\
-= & \Pr\left(K_h = 1, X_n = j | X_n = j, X_0 = i \right)\\
-= & \left[ P^{h-1} J P^{n-h} \right]_{ij}
+E\left[K_s \times [X_t = j] | X_0 = i\right]  = &
+\sum_{k \in \{0,1\}} k \Pr\left(K_s = k, X_t = j | X_0 = i \right)  \\
+= & \Pr\left(K_s = 1, X_t = j | X_0 = i \right)\\
+= & \left[ P^{s-1} J P^{t-s} \right]_{ij}
 \end{align*}
 ```
 
 Therefore,
 
 ``` math
-E\left[K | X_n, X_0 \right] = \frac{\sum_{h=1}^n P^{h-1} J P^{n-h}}{P^n}
+\begin{align*}
+E\left[K | X_t, X_0 \right] = & \frac{\sum_{s=1}^t P^{s-1} J P^{t-s}}{P^t}\\
+= & \frac{t P^t - \sum_{s=1}^t P^{s-1} Z P^{t-s}}{P^t}\\
+= & t - \frac{\sum_{s=1}^t P^{s-1} Z P^{t-s}}{P^t}
+\end{align*}
 ```
 
 using element-wise division.
+
+Calculating the numerator can be simplified if we decompose $`P`$ into
+its diagonal form. Let $`P = U \Lambda U^{-1} = U \Lambda U^{T}`$ where
+$`\Lambda_{ii} = \lambda_i`$ is the i-th eigenvalue of $`P`$ and column
+$`u_{\cdot j}`$ is the j-th eigenvector of $`P`$. Therefore,
+
+``` math
+p^t_{ij} = \sum_{k = 1}^n u_{i k} u_{j k} \lambda_k^t
+```
+
+and
+
+``` math
+\begin{align*}\\
+\left[\sum_{s=0}^t P^{s-1} Z P^{t-s}\right]_{ij} = &
+\sum_{s=0}^t \sum_{a=1}^n \sum_{b=1}^n \sum_{c=1}^n
+u_{ia} \lambda^{s-1}_{a} u^T_{ac} \cdot
+z_{cc} \cdot
+u_{cb} \lambda^{t-s}_{b} u^T_{bj}\\
+= & 
+\sum_{a=1}^n \sum_{b=1}^n \sum_{c=1}^n
+z_{cc} 
+u_{ia} u_{ca}
+u_{cb} u_{jb}
+\sum_{s=0}^t \lambda^{s-1}_{a}
+\lambda^{t-s}_{b}\\
+= & 
+\sum_{a=1}^n \sum_{b=1}^n \sum_{c=1}^nz_{cc} 
+u_{ia} u_{ca}
+u_{cb} u_{jb}
+\mathcal{J}_{ab}(t)
+\end{align*}
+```
+
+where
+
+``` math
+\mathcal{J}_{ab}(t) = \begin{cases}
+t \lambda^{t-1}_a & \text{if} & \lambda_a = \lambda_b\\
+ \frac{\lambda^t_a - \lambda^t_b}{\lambda_a - \lambda_b} & \text{if} & \lambda_a \ne \lambda_b
+\end{cases}
+```
